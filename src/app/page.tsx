@@ -158,7 +158,7 @@ export default function Site() {
         </div>
         <Section className="py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <Pill>Workflow bots • Knowledge agents • Automations</Pill>
+            <Pill>Workflow bots • Voice Agents • Knowledge Agents • Automations</Pill>
             <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-purple-900">
               Ship AI that <span className="text-purple-600">saves hours</span> every week
             </h1>
