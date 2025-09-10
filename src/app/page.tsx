@@ -296,11 +296,11 @@ export default function Site() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>How do you handle security and privacy?</AccordionTrigger>
-            <AccordionContent>
-              Principle of least privilege, encrypted secrets, audit logs, PII redaction, and opt‑in data retention. We follow SOC2‑friendly practices and provide a security brief.
-            </AccordionContent>
-          </AccordionItem>
+           <AccordionTrigger>How long does an automation project take?</AccordionTrigger>
+           <AccordionContent>
+             Most pilots are delivered in 2–4 weeks. Simple workflows can be live in days, while more complex, multi-system automations may take 6–8 weeks.
+           </AccordionContent>
+         </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger>What does pricing look like?</AccordionTrigger>
             <AccordionContent>
