@@ -4,14 +4,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check, Sparkles, Zap, Bot, BarChart3, ShieldCheck, CalendarClock, Menu, X, Cpu, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
-import { InlineWidget, PopupButton } from "react-calendly";
-import ContactSection from "@/components/ContactFormSection";
 import ContactFormSection from "@/components/ContactFormSection";
 import SectionPill from "@/components/SectionPill";
 import ClientsSection from "@/components/ClientSection";
@@ -130,9 +124,12 @@ export default function Site() {
               
         {/* Centered section */}
         <Section className="pt-16 md:pt-24 pb-6 md:pb-10 flex flex-col items-center text-center max-w-3xl">
-          <Pill>
-            Workflow Automations • Voice Agents • Website Building • Knowledgebases
-          </Pill>
+        <div className="flex flex-wrap justify-center gap-2">
+          <Pill>Workflow Automations</Pill>
+          <Pill>Voice Agents</Pill>
+          <Pill>Website Building</Pill>
+          <Pill>Knowledgebases</Pill>
+        </div>
               
           <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-purple-900">
             AI that <span className="text-purple-600">saves hours</span> every week
@@ -178,13 +175,13 @@ export default function Site() {
         <div className="max-w-3xl">
         <SectionPill>What we do</SectionPill>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Done-for-you AI automation services</h2>
-          <p className="mt-3 text-purple-700/70">We design, build, and maintain automations across your stack. Start small, scale fast.</p>
+          <p className="mt-3 text-purple-700/70">We help busineses harness the power of tech. We design, build, and maintain automations across your stack. Start small, scale fast.</p>
         </div>
         <div className="mt-10 grid md:grid-cols-3 gap-5">
           {[
-            { icon: <Zap className="h-5 w-5" />, title: "Workflow Automation", desc: "Automate repetitive tasks across CRM, helpdesk, sheets, and email.", points: ["Zapier/n8n custom", "Slack & Teams", "Approvals & handoffs"] },
+            { icon: <Zap className="h-5 w-5" />, title: "Workflow Automation", desc: "Automate repetitive tasks across CRM, helpdesk, sheets, and email.", points: ["Zapier/n8n custom", "Ai Voice Agents", "Approvals & handoffs"] },
             { icon: <Globe className="h-5 w-5" />, title: "Websites for Businesses", desc: "Modern, responsive websites designed to showcase your business and drive growth.", points: ["Custom design & branding", "Fast & SEO-friendly", "Booking/contact integrations"] },
-            { icon: <CalendarClock className="h-5 w-5" />, title: "Scheduling & Inbox", desc: "Smart triage, meeting scheduling, and concierge email flows.", points: ["Gmail/Outlook", "Calendly routing", "Ticket deflection"] },
+            { icon: <CalendarClock className="h-5 w-5" />, title: "Scheduling & Inbox", desc: "Smart triage, meeting scheduling, and concierge email flows.", points: ["Gmail/Outlook", "Calendly routing", "Ai Receptionist"] },
             { icon: <Bot className="h-5 w-5" />, title: "Knowledge Agents", desc: "Answers from your docs, tickets, and Slack—securely, with guardrails.", points: ["Bedrock/OpenAI", "RAG over Slack/Confluence", "Secure IAM"] },
             { icon: <BarChart3 className="h-5 w-5" />, title: "Analytics & Reporting", desc: "Dashboards and alerts that make ops measurable and predictable.", points: ["ETL to BigQuery/Redshift", "KPI pipelines", "Anomaly alerts"] },
             { icon: <Cpu className="h-5 w-5" />, title: "Custom Integrations", desc: "Glue code for the tools you already use—no rip-and-replace.", points: ["Salesforce/HubSpot", "Shopify/Stripe", "Airtable/Notion"] },
