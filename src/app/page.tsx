@@ -1,7 +1,7 @@
 "use client"
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Sparkles, Zap, Bot, BarChart3, ShieldCheck, CalendarClock, Menu, X, Cpu, Workflow } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Zap, Bot, BarChart3, ShieldCheck, CalendarClock, Menu, X, Cpu, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,16 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
+import { InlineWidget, PopupButton } from "react-calendly";
+import ContactSection from "@/components/ContactFormSection";
+import ContactFormSection from "@/components/ContactFormSection";
+import SectionPill from "@/components/SectionPill";
+import ClientsSection from "@/components/ClientSection";
+
 
 // --- Helpers ---
-export type RoiInputs = { employees: number; hourly: number; hoursSaved: number; monthlyFee: number };
-export function computeROI({ employees, hourly, hoursSaved, monthlyFee }: RoiInputs) {
-  const monthlyHours = employees * hoursSaved * 4.33; // weeks per month
-  const savings = monthlyHours * hourly;
-  const net = savings - monthlyFee;
-  const roiPct = monthlyFee > 0 ? (net / monthlyFee) * 100 : 0;
-  return { monthlyHours, savings, net, roiPct };
-}
 
 const Section: React.FC<React.PropsWithChildren<{ id?: string; className?: string }>> = ({ id, className, children }) => (
   <section id={id} className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className ?? ""}`}>{children}</section>
@@ -38,52 +36,13 @@ const Pill: React.FC<React.PropsWithChildren> = ({ children }) => (
   </span>
 );
 
-// --- Dev Smoke Tests (rendered collapsed) ---
-function approx(a: number, b: number, tol = 1e-6) { return Math.abs(a - b) <= tol; }
-function DevTests() {
-  const results: { name: string; pass: boolean; details?: string }[] = [];
-
   // Test 1: Basic ROI calculation
-  const r1 = computeROI({ employees: 10, hourly: 30, hoursSaved: 4, monthlyFee: 1500 });
-  results.push({
-    name: "ROI basic: monthlyHours",
-    pass: Math.round(r1.monthlyHours) === 173,
-    details: `got ${r1.monthlyHours.toFixed(1)}`,
-  });
-  results.push({ name: "ROI basic: savings", pass: approx(r1.savings, 5196) });
-  results.push({ name: "ROI basic: net", pass: approx(r1.net, 3696) });
-  results.push({ name: "ROI basic: roiPct", pass: Math.round(r1.roiPct) === 246 });
-
-  // Test 2: Zero monthly fee → ROI 0 (avoid div-by-zero)
-  const r2 = computeROI({ employees: 5, hourly: 50, hoursSaved: 1, monthlyFee: 0 });
-  results.push({ name: "Zero fee ROI", pass: r2.roiPct === 0 });
-
-  // Test 3: No hours saved → savings equal to 0
-  const r3 = computeROI({ employees: 8, hourly: 20, hoursSaved: 0, monthlyFee: 1000 });
-  results.push({ name: "No hours saved → savings 0", pass: r3.savings === 0 });
-
-  return (
-    <details className="mt-8 text-xs opacity-70">
-      <summary>Developer smoke tests</summary>
-      <ul className="mt-2 list-disc pl-6">
-        {results.map((t) => (
-          <li key={t.name} className={t.pass ? "text-emerald-600" : "text-red-600"}>
-            {t.pass ? "✅" : "❌"} {t.name}{t.details ? ` — ${t.details}` : ""}
-          </li>
-        ))}
-      </ul>
-    </details>
-  );
-}
-
+  
 // --- Main Site Component ---
 export default function Site() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [sent, setSent] = useState(false);
-
-  const [roi, setRoi] = useState<RoiInputs>({ employees: 10, hourly: 30, hoursSaved: 4, monthlyFee: 1500 });
-  const calc = useMemo(() => computeROI(roi), [roi]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -108,7 +67,7 @@ export default function Site() {
             </div>
             <div className="leading-tight">
               <div className="font-semibold tracking-tight text-purple-800">Aurora Automations</div>
-              <div className="text-xs text-purple-500">AI that actually ships</div>
+              <div className="text-xs text-purple-500">AI for local busniness</div>
             </div>
           </a>
 
@@ -152,97 +111,82 @@ export default function Site() {
       </header>
 
       {/* Hero */}
-      <div id="home" className="relative overflow-hidden">
+      <div
+        id="home"
+        className="relative overflow-hidden flex items-center justify-center min-h-screen"
+      >
+        {/* Background gradients */}
         <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(60%_60%_at_50%_20%,black,transparent)]">
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 0.35, y: 0 }} transition={{ duration: 1 }} className="absolute -inset-[10%] bg-[radial-gradient(circle_at_30%_20%,rgba(124,58,237,0.12),transparent_35%),radial-gradient(circle_at_70%_10%,rgba(168,85,247,0.10),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(124,58,237,0.12),transparent_40%)]" />
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 0.35, y: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute -inset-[10%]
+              bg-[radial-gradient(circle_at_30%_20%,rgba(124,58,237,0.12),transparent_35%),
+                   radial-gradient(circle_at_70%_10%,rgba(168,85,247,0.10),transparent_35%),
+                   radial-gradient(circle_at_50%_80%,rgba(124,58,237,0.12),transparent_40%)]"
+          />
         </div>
-        <Section className="py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <Pill>Workflow bots • Voice Agents • Knowledge Agents • Automations</Pill>
-            <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-purple-900">
-              Ship AI that <span className="text-purple-600">saves hours</span> every week
-            </h1>
-            <p className="mt-4 text-lg text-purple-700/70 max-w-prose">
-              We build practical automations that plug into your tools and eliminate repetitive work. Start with a free, no-obligation AI audit.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Button asChild size="lg" className="bg-purple-600 hover:bg-purple-700 text-white shadow-[6px_6px_14px_rgba(0,0,0,0.12),-6px_-6px_14px_rgba(255,255,255,0.9)]">
-                <a href="#contact" className="inline-flex items-center gap-2">Book Free Audit <ArrowRight className="h-4 w-4" /></a>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="bg-white/80 hover:bg-white text-purple-700 border-purple-200">
-                <a href="#services">Explore services</a>
-              </Button>
-            </div>
-            <div className="mt-8 flex gap-8">
-              <Metric label="Avg. time saved / employee" value="4–10 hrs/wk" />
-              <Metric label="Delivery timeline" value="2–4 weeks" />
-              <Metric label="Satisfaction" value="100% guarantee" />
-            </div>
+              
+        {/* Centered section */}
+        <Section className="pt-16 md:pt-24 pb-6 md:pb-10 flex flex-col items-center text-center max-w-3xl">
+          <Pill>
+            Workflow Automations • Voice Agents • Website Building • Knowledgebases
+          </Pill>
+              
+          <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-purple-900">
+            AI that <span className="text-purple-600">saves hours</span> every week
+          </h1>
+              
+          <p className="mt-4 text-lg text-purple-700/70">
+            We build practical automations that plug into your tools and eliminate
+            repetitive work. Start with a free, no-obligation AI audit.
+          </p>
+              
+          {/* Buttons */}
+          <div className="mt-6 flex flex-wrap justify-center items-center gap-3">
+            <Button
+              asChild
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white shadow-[6px_6px_14px_rgba(0,0,0,0.12),-6px_-6px_14px_rgba(255,255,255,0.9)]"
+            >
+              <a href="#contact" className="inline-flex items-center gap-2">
+                Book Free Audit <ArrowRight className="h-4 w-4" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="bg-white/80 hover:bg-white text-purple-700 border-purple-200"
+            >
+              <a href="#services">Explore services</a>
+            </Button>
           </div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-            <Card className="rounded-2xl bg-white border border-purple-100 shadow-[10px_10px_24px_rgba(0,0,0,0.12),-10px_-10px_24px_rgba(255,255,255,0.9)]">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-purple-800"><Workflow className="h-5 w-5" />ROI Calculator</CardTitle>
-                <CardDescription className="text-purple-600">Estimate monthly impact from automation.</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-sm text-purple-700/80"># Employees in workflow</label>
-                    <Input type="number" value={roi.employees} min={1} onChange={e => setRoi({ ...roi, employees: Number(e.target.value) })} className="bg-white/90" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-purple-700/80">Avg hourly cost ($)</label>
-                    <Input type="number" value={roi.hourly} min={1} onChange={e => setRoi({ ...roi, hourly: Number(e.target.value) })} className="bg-white/90" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-purple-700/80">Hours saved / week</label>
-                    <Input type="number" value={roi.hoursSaved} min={0} onChange={e => setRoi({ ...roi, hoursSaved: Number(e.target.value) })} className="bg-white/90" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-purple-700/80">Monthly fee ($)</label>
-                    <Input type="number" value={roi.monthlyFee} min={0} onChange={e => setRoi({ ...roi, monthlyFee: Number(e.target.value) })} className="bg-white/90" />
-                  </div>
-                </div>
-                <Separator />
-                <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
-                  <Metric label="Monthly hours" value={`${calc.monthlyHours.toFixed(0)}`} />
-                  <Metric label="Gross savings" value={`$${calc.savings.toFixed(0)}`} />
-                  <Metric label="Net impact" value={`$${calc.net.toFixed(0)}`} />
-                  <Metric label="ROI" value={`${calc.roiPct.toFixed(0)}%`} />
-                </div>
-                <p className="text-xs text-purple-600/80">* Estimates only. Replace with your data during audit.</p>
-              </CardContent>
-            </Card>
-          </motion.div>
+              
+          {/* Metrics */}
+          <div className="mt-8 flex justify-center gap-8 flex-wrap">
+            <Metric label="Avg. time saved / employee" value="4–10 hrs/wk" />
+            <Metric label="Delivery timeline" value="2–4 weeks" />
+            <Metric label="Satisfaction" value="100% guarantee" />
+          </div>
         </Section>
       </div>
 
-      {/* Trust bar */}
-      <Section className="py-8">
-        <div className="flex flex-wrap items-center justify-center gap-6 opacity-80">
-          {["HubSpot", "Slack", "Salesforce", "Shopify", "QuickBooks"].map((logo) => (
-            <div key={logo} className="h-10 grid place-items-center px-4 rounded-md bg-white border border-purple-100 shadow-[6px_6px_14px_rgba(0,0,0,0.08),-6px_-6px_14px_rgba(255,255,255,0.9)]">
-              <span className="text-sm text-purple-600">{logo}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       {/* Services */}
-      <Section id="services" className="py-16 md:py-24">
+      <Section id="services" className="pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="max-w-3xl">
-          <Pill>What we do</Pill>
+        <SectionPill>What we do</SectionPill>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Done-for-you AI automation services</h2>
           <p className="mt-3 text-purple-700/70">We design, build, and maintain automations across your stack. Start small, scale fast.</p>
         </div>
         <div className="mt-10 grid md:grid-cols-3 gap-5">
           {[
-            { icon: <Bot className="h-5 w-5" />, title: "Knowledge Agents", desc: "Answers from your docs, tickets, and Slack—securely, with guardrails.", points: ["Bedrock/OpenAI", "RAG over Slack/Confluence", "Secure IAM"] },
-            { icon: <Zap className="h-5 w-5" />, title: "Workflow Bots", desc: "Automate repetitive tasks across CRM, helpdesk, sheets, and email.", points: ["Zapier/n8n custom", "Slack & Teams", "Approvals & handoffs"] },
-            { icon: <BarChart3 className="h-5 w-5" />, title: "Analytics & Reporting", desc: "Dashboards and alerts that make ops measurable and predictable.", points: ["ETL to BigQuery/Redshift", "KPI pipelines", "Anomaly alerts"] },
-            { icon: <ShieldCheck className="h-5 w-5" />, title: "Security & Governance", desc: "Least-privilege access, audit logging, and safety rails for AI.", points: ["PII redaction", "Policy prompts", "SOC2-ready patterns"] },
+            { icon: <Zap className="h-5 w-5" />, title: "Workflow Automation", desc: "Automate repetitive tasks across CRM, helpdesk, sheets, and email.", points: ["Zapier/n8n custom", "Slack & Teams", "Approvals & handoffs"] },
+            { icon: <Globe className="h-5 w-5" />, title: "Websites for Businesses", desc: "Modern, responsive websites designed to showcase your business and drive growth.", points: ["Custom design & branding", "Fast & SEO-friendly", "Booking/contact integrations"] },
             { icon: <CalendarClock className="h-5 w-5" />, title: "Scheduling & Inbox", desc: "Smart triage, meeting scheduling, and concierge email flows.", points: ["Gmail/Outlook", "Calendly routing", "Ticket deflection"] },
+            { icon: <Bot className="h-5 w-5" />, title: "Knowledge Agents", desc: "Answers from your docs, tickets, and Slack—securely, with guardrails.", points: ["Bedrock/OpenAI", "RAG over Slack/Confluence", "Secure IAM"] },
+            { icon: <BarChart3 className="h-5 w-5" />, title: "Analytics & Reporting", desc: "Dashboards and alerts that make ops measurable and predictable.", points: ["ETL to BigQuery/Redshift", "KPI pipelines", "Anomaly alerts"] },
             { icon: <Cpu className="h-5 w-5" />, title: "Custom Integrations", desc: "Glue code for the tools you already use—no rip-and-replace.", points: ["Salesforce/HubSpot", "Shopify/Stripe", "Airtable/Notion"] },
           ].map((s, i) => (
             <Card key={i} className="rounded-2xl bg-white border border-purple-100 shadow-[8px_8px_18px_rgba(0,0,0,0.1),-8px_-8px_18px_rgba(255,255,255,0.9)] hover:shadow-[10px_10px_22px_rgba(0,0,0,0.12),-10px_-10px_22px_rgba(255,255,255,0.95)] transition-shadow">
@@ -262,8 +206,10 @@ export default function Site() {
         </div>
       </Section>
 
+      <ClientsSection/>
+
       {/* Case studies */}
-      <Section id="cases" className="py-16 md:py-24">
+      {/* <Section id="cases" className="py-16 md:py-24">
         <div className="max-w-3xl">
           <Pill>Proof &gt; promises</Pill>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Recent wins & measurable results</h2>
@@ -318,12 +264,12 @@ export default function Site() {
             </Card>
           </TabsContent>
         </Tabs>
-      </Section>
+      </Section> */}
 
       {/* Process */}
       <Section id="process" className="py-16 md:py-24">
         <div className="max-w-3xl">
-          <Pill>How we work</Pill>
+        <SectionPill>How we work</SectionPill>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Fast, safe, outcomes‑first</h2>
           <p className="mt-3 text-purple-700/70">A clear path from idea → shipped automation, with security from day one.</p>
         </div>
@@ -361,7 +307,7 @@ export default function Site() {
           <AccordionItem value="item-3">
             <AccordionTrigger>What does pricing look like?</AccordionTrigger>
             <AccordionContent>
-              Fixed‑fee pilots (2–4 weeks) with clear deliverables; optional retainers for maintenance. Use the ROI calculator to estimate value.
+              Fixed‑fee pilots (2–4 weeks) with clear deliverables; optional retainers for maintenance. 
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -370,7 +316,7 @@ export default function Site() {
       {/* About */}
       <Section id="about" className="py-16 md:py-24">
         <div className="max-w-3xl">
-          <Pill>About us</Pill>
+        <SectionPill>About Us</SectionPill>
           <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Builders who love boring problems</h2>
           <p className="mt-3 text-purple-700/70">We’re engineers and designers obsessed with making teams faster. We meet you where you are—no rip‑and‑replace—and ship solutions in weeks, not quarters.</p>
         </div>
@@ -397,66 +343,8 @@ export default function Site() {
       </Section>
 
       {/* Contact */}
-      <Section id="contact" className="py-16 md:py-24">
-        <div className="max-w-2xl">
-          <Pill>Let’s talk</Pill>
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">Book a free AI audit</h2>
-          <p className="mt-3 text-purple-700/70">Tell us about your workflows. We’ll identify quick wins and send a plan within 48 hours.</p>
-        </div>
-        <div className="mt-8 grid md:grid-cols-2 gap-6">
-          <Card className="rounded-2xl bg-white border border-purple-100 shadow-[8px_8px_18px_rgba(0,0,0,0.1),-8px_-8px_18px_rgba(255,255,255,0.9)]">
-            <CardHeader>
-              <CardTitle className="text-purple-800">Contact form</CardTitle>
-              <CardDescription className="text-purple-600">We’ll reply within one business day.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {sent ? (
-                <div className="p-6 rounded-xl bg-purple-50 border border-purple-100">
-                  <div className="font-medium text-purple-800">Thanks! Your message has been received.</div>
-                  <p className="text-sm text-purple-700/80 mt-1">We’ll follow up shortly. (In production, connect this to HubSpot/Pipedrive.)</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="grid gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-sm text-purple-700/80">Name</label>
-                      <Input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="bg-white/90" />
-                    </div>
-                    <div>
-                      <label className="text-sm text-purple-700/80">Work email</label>
-                      <Input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="bg-white/90" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-sm text-purple-700/80">Company</label>
-                    <Input value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} className="bg-white/90" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-purple-700/80">What would you like to automate?</label>
-                    <Textarea rows={5} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} placeholder="e.g., triaging inbound email, syncing CRM notes, summarizing support tickets…" className="bg-white/90" />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-purple-700/70">By submitting, you agree to our privacy policy.</div>
-                    <Button type="submit" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-[6px_6px_14px_rgba(0,0,0,0.12),-6px_-6px_14px_rgba(255,255,255,0.9)]">Send message <ArrowRight className="h-4 w-4" /></Button>
-                  </div>
-                </form>
-              )}
-            </CardContent>
-          </Card>
-          <Card className="rounded-2xl bg-white border border-purple-100 shadow-[8px_8px_18px_rgba(0,0,0,0.1),-8px_-8px_18px_rgba(255,255,255,0.9)]">
-            <CardHeader>
-              <CardTitle className="text-purple-800">Or grab a time</CardTitle>
-              <CardDescription className="text-purple-600">Drop in directly on our calendar.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="aspect-video w-full rounded-xl border border-purple-100 grid place-items-center text-sm text-purple-700/80 bg-white shadow-[inset_6px_6px_12px_rgba(0,0,0,0.04),inset_-6px_-6px_12px_rgba(255,255,255,0.9)]">
-                Calendly/Cal.com embed goes here.
-              </div>
-              <div className="text-xs text-purple-700/80 mt-3">Replace the placeholder with your scheduling embed snippet.</div>
-            </CardContent>
-          </Card>
-        </div>
-      </Section>
+      <ContactFormSection/>
+  
 
       {/* CTA */}
       <Section className="py-12">
@@ -509,10 +397,7 @@ export default function Site() {
         </Section>
       </footer>
 
-      {/* Dev tests block */}
-      <Section className="py-6">
-        <DevTests />
-      </Section>
     </div>
   );
 }
+
