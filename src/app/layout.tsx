@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://omni-automation.vercel.app"), // change to your custom domain later
-  title: "Aurora Automations — AI that saves hours every week",
+  title: "Omni Automations — AI that saves hours every week",
   description:
     "Workflow automations, voice agents, websites, and knowledgebases for local businesses.",
   icons: [
@@ -22,17 +22,17 @@ export const metadata: Metadata = {
     { rel: "apple-touch-icon", url: "/apple-touch-icon.png" },
   ],
   openGraph: {
-    title: "Aurora Automations",
+    title: "Omni Automations",
     description:
       "Done-for-you AI automations that save 4–10 hours per employee per week.",
     url: "https://omni-automation.vercel.app",
-    siteName: "Aurora Automations",
+    siteName: "Omni Automations",
     images: ["/og.png"], // 1200x630 recommended
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aurora Automations",
+    title: "Omni Automations",
     description:
       "Done-for-you AI automations that save hours every week.",
     images: ["/og.png"],
