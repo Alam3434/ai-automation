@@ -54,7 +54,7 @@ export default function Site() {
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a className="hover:text-purple-700 transition" href="#services">Services</a>
-            <a className="hover:text-purple-700 transition" href="#cases">Case Studies</a>
+            <a className="hover:text-purple-700 transition" href="#clients">Clients</a>
             <a className="hover:text-purple-700 transition" href="#process">Process</a>
             <a className="hover:text-purple-700 transition" href="#about">About</a>
             <a className="hover:text-purple-700 transition" href="#contact">Contact</a>
@@ -74,7 +74,7 @@ export default function Site() {
             <Section className="py-4 flex flex-col gap-3">
               {[
                 ["Services", "#services"],
-                ["Case Studies", "#cases"],
+                ["Case Studies", "#clients"],
                 ["Process", "#process"],
                 ["About", "#about"],
                 ["Contact", "#contact"],
@@ -361,7 +361,7 @@ export default function Site() {
             <ul className="space-y-2 text-sm">
               <li><a href="#about" className="hover:underline">About</a></li>
               <li><a href="#process" className="hover:underline">Process</a></li>
-              <li><a href="#cases" className="hover:underline">Case Studies</a></li>
+              <li><a href="#clients" className="hover:underline">Clients</a></li>
             </ul>
           </div>
           <div>
