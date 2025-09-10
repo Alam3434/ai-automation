@@ -6,7 +6,6 @@ import { ArrowRight } from "lucide-react";
 
 // Adjust these imports to your paths
 import Section from "@/components/Section";
-import Pill from "@/components/Pill";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,12 +19,12 @@ export default function ContactFormSection() {
   return (
     <Section id="contact" className="py-16 md:py-24">
       <div className="max-w-2xl">
-      <SectionPill>Let's talk</SectionPill>
+      <SectionPill>Let&apos;s talk</SectionPill>
         <h2 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-purple-900">
           Book a free AI audit
         </h2>
         <p className="mt-3 text-purple-700/70">
-          Tell us about your workflows. We’ll identify quick wins and send a plan within 48 hours.
+          Tell us about your workflows. We will identify quick wins and send a plan within 48 hours.
         </p>
       </div>
 
@@ -35,7 +34,7 @@ export default function ContactFormSection() {
           <CardHeader>
             <CardTitle className="text-purple-800">Contact form</CardTitle>
             <CardDescription className="text-purple-600">
-              We’ll reply within one business day.
+              We will reply within one business day.
             </CardDescription>
           </CardHeader>
 

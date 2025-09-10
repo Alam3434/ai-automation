@@ -1,7 +1,7 @@
 "use client"
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Sparkles, Zap, Bot, BarChart3, ShieldCheck, CalendarClock, Menu, X, Cpu, Globe } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Zap, Bot, BarChart3, CalendarClock, Menu, X, Cpu, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,20 +35,7 @@ const Pill: React.FC<React.PropsWithChildren> = ({ children }) => (
 // --- Main Site Component ---
 export default function Site() {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
-  const [sent, setSent] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      const leads = JSON.parse(localStorage.getItem("_leads") || "[]");
-      leads.push({ ...form, createdAt: new Date().toISOString() });
-      localStorage.setItem("_leads", JSON.stringify(leads));
-      setSent(true);
-    } catch (_) {
-      setSent(true);
-    }
-  }
 
   return (
     <div className="min-h-screen text-gray-900 bg-gradient-to-b from-purple-100 via-white to-purple-50">
@@ -60,7 +47,7 @@ export default function Site() {
               <Sparkles className="h-5 w-5 text-purple-700" />
             </div>
             <div className="leading-tight">
-              <div className="font-semibold tracking-tight text-purple-800">Aurora Automations</div>
+              <div className="font-semibold tracking-tight text-purple-800">Omni Automations</div>
               <div className="text-xs text-purple-500">AI for local busniness</div>
             </div>
           </a>
@@ -365,7 +352,7 @@ export default function Site() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 grid place-items-center rounded-lg bg-purple-200 border shadow-inner"><Sparkles className="h-4 w-4 text-purple-700" /></div>
-              <span className="font-semibold text-purple-800">Aurora Automations</span>
+              <span className="font-semibold text-purple-800">Omni Automations</span>
             </div>
             <p className="text-sm text-purple-700/80 mt-3 max-w-prose">We build practical AI automations for real teams. No hype—just shipped outcomes.</p>
           </div>
@@ -380,13 +367,13 @@ export default function Site() {
           <div>
             <div className="font-medium mb-3 text-purple-800">Contact</div>
             <ul className="space-y-2 text-sm text-purple-700/80">
-              <li>hello@aurora‑automations.dev</li>
+              <li>mohammadalam2003@gmail.com</li>
               <li>San Francisco, CA</li>
             </ul>
           </div>
         </Section>
         <Section className="pb-8 -mt-6 text-xs text-purple-700/70 flex items-center justify-between">
-          <span>© {new Date().getFullYear()} Aurora Automations. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Omni Automations. All rights reserved.</span>
           <div className="flex gap-3">
             <a href="#" className="hover:underline">Privacy</a>
             <a href="#" className="hover:underline">Terms</a>
