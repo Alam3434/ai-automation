@@ -110,12 +110,15 @@ export default function Site() {
         </div>
               
         {/* Centered section */}
-        <Section className="pt-16 md:pt-24 pb-6 md:pb-10 flex flex-col items-center text-center max-w-3xl">
-        <div className="flex flex-wrap justify-center gap-2">
-          <Pill>Workflow Automations</Pill>
-          <Pill>Voice Agents</Pill>
-          <Pill>Website Building</Pill>
-          <Pill>Knowledgebases</Pill>
+        <Section className="pt-12 md:pt-16 pb-6 md:pb-10 flex flex-col items-center text-center max-w-3xl">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-purple-900">
+          Omni-<span className="text-purple-600">Automation</span>
+        </h1>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Pill>• Workflow Automations</Pill>
+          <Pill>• Voice Agents</Pill>
+          <Pill>• Website Building</Pill>
+          <Pill>• Knowledgebases</Pill>
         </div>
               
           <h1 className="mt-4 text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-purple-900">
